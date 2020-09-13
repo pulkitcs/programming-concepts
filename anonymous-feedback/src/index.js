@@ -1,11 +1,11 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
-import App from './App';
+import AnonymousFeedback from './anonymousFeedback';
 
 ReactDOM.render(
   <React.StrictMode>
-    <App />
+    <AnonymousFeedback />
   </React.StrictMode>,
   document.getElementById('root')
 );
