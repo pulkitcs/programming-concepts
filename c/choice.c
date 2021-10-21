@@ -13,7 +13,6 @@ int main() {
 
   scanf("%d", &c);
 
-  
   switch (c) {
     case 1: {
       printf("Enter first and second number \n");
