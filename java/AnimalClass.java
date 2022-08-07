@@ -4,8 +4,9 @@ public class AnimalClass {
     System.out.println(color+" "+type);
   }
 
-  void printText(String type) {
+  int printText(String type) {
     System.out.println("grey "+type);
+    return 0;
   }
   
   // Constructor overloading
