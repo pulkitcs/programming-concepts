@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>Chaining Functions</title>
+</head>
+<body>
+<script type="text/javascript">
+	function calculate(initAmount = 0) {
+		let amount = initAmount;
+		const properties = {
+			value: () => amount,
+			lacs: (num) => {
+				const modifiedNum = num * 100000;
+				amount += modifiedNum;
+				return properties;
+			}
+		};
+
+		return properties;
+	}
+
+	console.log(calculate().value());
+	console.log(calculate().lacs(2).value());
+	console.log(calculate().lacs(2).lacs(3).lacs(7).value());
+</script>
+</body>
+</html>

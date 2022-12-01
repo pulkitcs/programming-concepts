@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>Caching</title>
+</head>
+<body>
+<script>
+	//implementation 1
+	function memo(fn, cache = {}) {
+		return function(...args) {
+			const property = JSON.stringify(args);
+			const hasProperty = cache.hasOwnProperty(property);
+
+			let result;
+
+			if (hasProperty) {
+				console.info('This is cached');
+				result =  cache[property]
+			} else {
+				const output = fn(...args);
+				cache[property] = output;
+				result = output;
+			};
+
+			return result;
+		}
+	}
+
+	function log(msg = '') {
+		return msg;
+	}
+
+	const memoLog = memo(log, {});
+	console.log(memoLog('123'));
+	console.log(memoLog('1234'));
+	console.log(memoLog('Hello is this also cached'));
+	console.log(memoLog('Hello is this also cached'));
+</script>
+</body>
+</html>

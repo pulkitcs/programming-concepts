@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>Closure</title>
+</head>
+<body>
+	<script type="text/javascript">
+		
+		function marks(initialValue) {
+			let num = initialValue || 0;
+			return ({
+				add: function(value) {
+					num = num + value;
+					return num;
+				},
+				minus: function(value) {
+					num = num - value;
+					return num;
+				},
+				multiply: function(value) {
+					num = num * value;
+					return num;
+				},
+				reset: function(value) {
+					num = value || value === 0 ? value : initialValue;
+					return num;
+				}
+			})
+		}
+
+		const mathMarks = marks(10);
+		console.log(mathMarks.add(10));
+		console.log(mathMarks.add(100))
+		console.log(mathMarks.multiply(.5))
+		console.log(mathMarks.reset(0))
+		console.log(mathMarks.add(10));
+	</script>
+</body>
+</html>
