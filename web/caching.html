@@ -8,7 +8,8 @@
 <body>
 <script>
 	//implementation 1
-	function memo(fn, cache = {}) {
+	function memo(fn) {
+		const cache = {};
 		return function(...args) {
 			const property = JSON.stringify(args);
 			const hasProperty = cache.hasOwnProperty(property);
@@ -32,7 +33,7 @@
 		return msg;
 	}
 
-	const memoLog = memo(log, {});
+	const memoLog = memo(log);
 	console.log(memoLog('123'));
 	console.log(memoLog('1234'));
 	console.log(memoLog('Hello is this also cached'));
