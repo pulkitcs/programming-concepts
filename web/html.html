@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>HTML form elements</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+  </head>
+  <body>
+    <label for="name">Name</label><input id="name" type="text" />
+    <select id="gender" title="Select Gender" multiple>
+      <optgroup label="Gender Types">
+        <option selected value="male">
+          Male
+        </option>
+        <option selected value="female">
+          Female
+        </option>
+      </optgroup>
+    </select>
+    <label for="browsers">Browsers</label>
+    <input list="browsers" name="browsers" title="browsers" value="chrome">
+    <datalist id="browsers">
+      <option value="chome"></option>
+      <option value="firefox"></option>
+      <option value="edge"></option>
+    </datalist>
+    <script>
+      const elem = document.getElementById('gender');
+      elem.onchange =  function(e) {
+        console.dir([...e.target.selectedOptions].map(e => e.value))
+      }
+
+      window.localStorage.setItem('testValue', '123');
+      console.log(window.localStorage.getItem('testValue'));
+
+      window.sessionStorage.setItem('testValue', '007');
+
+      window.sessionStorage.setItem('anotherValue', '123');
+
+      setInterval(() => {
+        window.sessionStorage.removeItem('anotherValue');
+      }, 5000)
+
+      function check(name = "") {
+        return function(anotherName) {
+          return name === anotherName;
+        }
+      }
+
+      function fun(fn) {
+        fn();
+      }
+
+      fun(() => {})
+
+      console.log(check("Ram")("Pulkit"));
+
+      const run = makeCurry(() => {});
+      run(123)  
+
+      function makeCurry(callback) {
+        return function(...args) {
+          if (args.length === 0) {
+            return callback();
+          }
+          else {
+            return makeCurry((otherargs) => callback(...args, ...otherargs))
+          }
+        }
+      }
+
+      new Promise((res, rej) => res('this worjs')).then(v => console.log(v));
+
+      async function runner(number) {
+        return number;
+      }
+
+      async function getValue() {
+        console.log(await runner("the promise resolved"));
+      }
+
+      //runner("the promise resolved").then(v => console.log(v))
+
+      getValue();
+
+
+    // // states of promise
+      // pending
+      // fulfilled / resolved
+      // rejected
+      // settled
+
+      // Promise.all;
+      // Promise.any
+      // Promise.allSettled
+      // Promise.race;
+
+   
+
+      async function runPromise() {
+        // Promise.all only works when all promise are resolved; or any fails then returns aggregate error
+
+        const r1 = await Promise.all([Promise.resolve(1), Promise.resolve(2), Promise.resolve("some resolve")]).catch(e => console.log(e)).finally(() => console.log('there were errors'));
+
+        console.log("all", r1);
+
+        // Any resolves or all reject
+        Promise.any([new Promise((r, j) => { setTimeout(() => j('Promise any'), 2000)}), Promise.reject("this any resolve")]).catch(e => console.log('any: All promises failed'));
+
+        const r2 = await Promise.any([new Promise((r, j) => { setTimeout(() => j('Promise any'), 2000)}), Promise.resolve("this any resolve")]).catch(e => console.log('any: All promises failed'));
+
+        console.log('any', r2);
+
+        // Promise allSettled
+        const r3 = await Promise.allSettled([Promise.resolve('resolved'), Promise.reject('reject')]);
+
+        console.log(r3); // returns status fulfilled => value
+         // returns status rejected => reason
+
+        // race any one fulfills or rejects
+       Promise.race([new Promise((r, j) => { setTimeout(() => j('Promise any rejected'), 1000)}), new Promise((r, j) => { setTimeout(() => r('Promise any resolve'), 1500)})]).catch(() => console.log("error is thrown"));
+
+        //console.log('race', r4)
+      }
+
+      //0 1 1 2 3 5 8
+
+      let num = 0;
+      let prev = -1;
+
+      while(prev < 10) {
+        if(num === 0) {
+          console.log(0);
+          num = 1
+        } else if (num === 1 && prev === -1) {
+          console.log(num);
+          prev = 0;
+        } else {
+          const sum = num + prev;
+          console.log(sum);
+          prev = num;
+          num = sum;
+        }
+      }
+
+
+      runPromise();
+    </script>
+  </body>
+</html>
