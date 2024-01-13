@@ -5,23 +5,23 @@ interface INode<dataType> {
 }
 
 class MyNode<dataType> implements INode<dataType> {
-   public prev = null;
-   public next = null;
+  public prev: INode<dataType> | null = null;
+  public next: INode<dataType> | null = null
 
   constructor(public data: dataType) { }
 }
 
 interface ILinkedList<dataType> {
-  insertInBegining(data: dataType): MyNode<dataType>;
-  insertAtEnd(data: dataType): MyNode<dataType>;
-  deleteNode(node: MyNode<dataType>): void;
-  traverse(): dataType[];
-  size(): number;
-  search(compare: (data: dataType) => boolean): MyNode<dataType> | null;
+  insertInBegining(data: dataType): INode<dataType>;
+  insertAtEnd(data: dataType): INode<dataType>;
+  //deleteNode(node: MyNode<dataType>): void;
+  //traverse(): dataType[];
+  //size(): number;
+  //search(compare: (data: dataType) => boolean): MyNode<dataType> | null;
 }
 
 class LinkedList<dataType> implements ILinkedList<dataType> {
-  private head: MyNode<dataType> | null = null;
+  private head: INode<dataType> | null = null;
 
   insertInBegining(data: dataType) {
     const node = new MyNode(data);
@@ -45,7 +45,7 @@ class LinkedList<dataType> implements ILinkedList<dataType> {
       return this.head;
     }
     else {
-      const getLast = (n: MyNode<dataType>): MyNode<dataType> => {
+      const getLast = (n: INode<dataType>): INode<dataType> => {
         if(!n.next) return n;
         else return getLast(n.next);
       }
@@ -66,17 +66,17 @@ class LinkedList<dataType> implements ILinkedList<dataType> {
     }
   }
 
-  traverse() {
+  // traverse() {
 
-  }
+  // }
 
-  size() {
+  // size() {
 
-  }
+  // }
 
-  search(compare) {
+  // search(compare) {
 
-  }
+  // }
 }
 
 const ll = new LinkedList<number>();
@@ -86,3 +86,4 @@ const node = ll.insertAtEnd(200)
 console.log(ll);
 ll.deleteNode(node);
 console.log(ll);
+//console.log(ll.search((d:number) => d === 100));
