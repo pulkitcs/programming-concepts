@@ -24,6 +24,25 @@
 	console.log(calculate().value());
 	console.log(calculate().lacs(2).value());
 	console.log(calculate().lacs(2).lacs(3).lacs(7).value());
+
+
+	function sum (num) {
+		return num*num;
+	};
+
+	function makeCurry(fn) {
+		return function(...arr) {
+			if(arr.length) {
+				return makeCurry((...other) => fn(...arr, ...other))
+			} else {
+				return fn(...arr);
+			}
+		}
+	}
+
+	const s = makeCurry(sum);
+
+	console.log(s(10)(10)());
 </script>
 </body>
 </html>
