@@ -11,5 +11,6 @@ function checkAnagram(str1: string , str2: string): boolean {
   return sortedStr1 === sortedStr2;
 };
 
-
+console.time()
 console.log(checkAnagram('silent', 'listen'));
+console.timeEnd()
