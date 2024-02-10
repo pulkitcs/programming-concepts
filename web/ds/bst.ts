@@ -1,3 +1,7 @@
+/*
+  Please refer https://www.geeksforgeeks.org/deletion-in-binary-search-tree/
+*/
+
 interface INode<dataType> {
   data: dataType;
   //prev?:dataType | undefined;
@@ -94,11 +98,13 @@ class BinarySearchTree<dataType> implements IBinarySearchTree<dataType> {
 
   delete(value: dataType): INode<dataType> | undefined {
     const {prev, node} = this.search(value);
+    const { left, right } = node;
 
     if(!node) return undefined;
     else if(!prev) return this.root = undefined;
 
-    if(!node.left && !node.right) {
+    // deletes a child left
+    if(!left && !right) {
       const deleteParentFromLeft = this.compare(value, prev.data); 
 
       if(deleteParentFromLeft && prev.left) {
@@ -109,6 +115,32 @@ class BinarySearchTree<dataType> implements IBinarySearchTree<dataType> {
       }
     }
 
+    else if(!left){
+      const deleteParentFromLeft = this.compare(value, prev.data); 
+
+      if(deleteParentFromLeft && prev.left) {
+        delete prev.left
+        prev.left = right;
+      }
+      else if (!deleteParentFromLeft && prev.right){
+        delete prev.right;
+        prev.right = right;
+      }
+    }
+
+    else if (!right) {
+      const deleteParentFromLeft = this.compare(value, prev.data); 
+
+      if(deleteParentFromLeft && prev.left) {
+        delete prev.left
+        prev.left = left;
+      }
+      else if (!deleteParentFromLeft && prev.right){
+        delete prev.right;
+        prev.right = left;
+      }
+    }
+
     return node;
   }
 }
@@ -116,17 +148,16 @@ class BinarySearchTree<dataType> implements IBinarySearchTree<dataType> {
 const compare: comparator<number> = (dataToBeAdded,  nodeData) => dataToBeAdded < nodeData;
 
 const bst = new BinarySearchTree<number>(compare);
-bst.insert(8);
-bst.insert(3);
-bst.insert(10);
-bst.insert(1);
-bst.insert(6);
-bst.insert(4);
-bst.insert(7);
-bst.insert(14);
-bst.insert(13);
+bst.insert(50);
+bst.insert(30);
+bst.insert(70);
+bst.insert(20);
+bst.insert(40);
+bst.insert(60);
+bst.insert(80);
 
-console.log("Search result", bst.search(13));
-console.log("deleted node", bst.delete(13));
+//console.log("Search result", bst.search(30));
+//console.log("deleted node", bst.delete(20));
+console.log("deleted node", bst.delete(70));
 
 console.log(bst);
