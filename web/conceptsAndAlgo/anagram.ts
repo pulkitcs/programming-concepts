@@ -11,16 +11,13 @@ function checkAnagram(str1: string , str2: string): boolean {
   return sortedStr1 === sortedStr2;
 };
 
-console.time('smart')
-checkAnagram('silent', 'listen');
-console.timeEnd('smart');
-
-
+// console.time('smart')
+// checkAnagram('silent', 'listen');
+// console.timeEnd('smart');
 
 
 const input = ["eat", "ate", "tea", "himanshu", "ear","team", "meat", "mate", "are"];
 //[["eat", "ate", "tea"], ["himanshu"], ["team", "meat", "mate"],["are", "ear"]]
-
 
 
 function checkAnagrams(input: string[]): string[][] {
@@ -56,3 +53,50 @@ function checkAnagrams(input: string[]): string[][] {
 console.time('lazy');
 checkAnagrams(input);
 console.timeEnd('lazy');
+
+
+//const input = ["eat", "ate", "tea", "himanshu", "ear","team", "meat", "mate", "are"];
+
+type compareFn = {
+  (word: string, currentWord: string): boolean;
+}
+
+function createCompareFn (shouldUseLoop: boolean = false): compareFn {
+  if(shouldUseLoop)
+    return (word: string, currentWord: string) => word.split('').every((l) => currentWord.indexOf(l) > -1);
+  else return (word: string, currentWord: string) => word === [...currentWord].sort().join();
+} 
+
+const anagrams = (input: string[], fn: compareFn, shouldUseLoop: boolean): string[][] => {
+  const copy = [...input];
+  let count = 0;
+  const output: string[][] = [];
+  
+  while(copy.length) {
+    const word:string = copy[count];
+    const sortedWord: string = [...word].sort().join();
+    const seq: string[] = [word];
+
+    for(let i = 0; i<copy.length; i++) {
+      const currentWord:string = copy[i];
+
+       if(i === count ||  currentWord.length !== word.length) {
+          continue;
+       }
+
+       const result: boolean = fn(shouldUseLoop ? word : sortedWord, currentWord);
+
+       if(result) {
+          const elem: string[] = copy.splice(i, 1);
+          seq.push(elem[0]);
+       }
+    }
+
+    output.push(seq);
+  }
+
+  return output;
+}
+
+const shouldUseLoop = true;
+anagrams(input, createCompareFn(shouldUseLoop), shouldUseLoop)
