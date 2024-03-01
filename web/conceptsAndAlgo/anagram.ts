@@ -11,6 +11,20 @@ function checkAnagram(str1: string , str2: string): boolean {
   return sortedStr1 === sortedStr2;
 };
 
+function verifyAnangram(word1: string[], word2: string[]) {
+  const word1Seq = [...word1].sort();
+  const word2Seq = [...word2].sort();
+  let isSame = true;
+
+  for(let i = 0; i < word1Seq.length; i++) {
+    if (word1Seq[i] !== word2Seq[i]) {
+      return false
+    }
+  }
+
+  return isSame;
+}
+
 // console.time('smart')
 // checkAnagram('silent', 'listen');
 // console.timeEnd('smart');
@@ -75,7 +89,7 @@ const anagrams = (input: string[], fn: compareFn, shouldUseLoop: boolean): strin
   while(copy.length) {
     const word:string = copy[count];
     const sortedWord: string = [...word].sort().join();
-    const seq: string[] = [word];
+    const seq: string[] = [copy.slice(0, 1)[0]];
 
     for(let i = 0; i<copy.length; i++) {
       const currentWord:string = copy[i];
@@ -93,10 +107,11 @@ const anagrams = (input: string[], fn: compareFn, shouldUseLoop: boolean): strin
     }
 
     output.push(seq);
+    if (count <= copy.length - 1) ++count;
   }
 
   return output;
 }
 
 const shouldUseLoop = true;
-anagrams(input, createCompareFn(shouldUseLoop), shouldUseLoop)
+console.log(anagrams(input, createCompareFn(shouldUseLoop), shouldUseLoop));
